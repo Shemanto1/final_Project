@@ -114,7 +114,7 @@ body{
 <header class="header">
 <a href="index.php">Home</a>
 <h2 class="logo">NextGadget</h2>
-<a href="login.php">Login</a>
+<a href="views/login.php">Login</a>
 </header>
 
 <main class="main">

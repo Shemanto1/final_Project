@@ -1,6 +1,8 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
+require_once '../model/dbConnect.php';
     
    $name="";
    $email="";
@@ -114,13 +116,7 @@ else if(trim($_POST['password']) !== trim($_POST['confirm_password']))
                $role = "customer";
    
    
-                  $server = "localhost";
-                   $username ="root";
-                   $pass ="";
-                   $database = "NextGadgets";
-   
-                    $con = mysqli_connect($server, $username, $pass, $database);
-   
+               $con = getConnection();
    
                        if (!$con) {
                            
@@ -287,7 +283,7 @@ top: -30px;
 <body>
 
 <header class="header">
-<a href="index.php">Home</a>
+<a href="../index.php">Home</a>
 <h2 class="logo">NextGadget</h2>
 <a href="login.php">Login</a>
 </header>
@@ -356,4 +352,4 @@ top: -30px;
 </footer>
 
 </body>
-</html> 
+</html>  

@@ -1,6 +1,4 @@
 <?php
-        
-  //  include "db.php";
     session_start();
 
     $email;
@@ -67,20 +65,24 @@
 
                                       if($row['role']=="customer")
                                       {
-                                        $_SESSION["username"] = $row["username"];
-                                      echo " <script>
-                                                alert('Your Registration is successful');
-                                                window.location.href='userDesh.php';
-                                            </script>";
+                                        $_SESSION["username"] = $row["email"];
+                                        $_SESSION["role"] = $row["role"];
+                                        $_SESSION["name"] = $row["name"];
+                                        header("Location: customer/userDesh.php");  
+                                      
+                                    
                                       }
                                       else
                                       {
                                        // echo "admin login successfull";
-                                        $_SESSION["username"] = $row["username"];
-                                        echo " <script>
-                                                alert('Your Registration is successful');
-                                                window.location.href='adminDesh.php';
-                                            </script>";
+                                        $_SESSION["username"] = $row["email"];
+                                        //$_SESSION["password"] = $row["password"];
+                                        $_SESSION["role"] = $row["role"];
+                                       
+                                        $_SESSION["name"] = $row["name"];
+
+                                       header("Location: admin/adminDesh.php");
+                                 
                                       }
                                     }
                                     else 
@@ -255,7 +257,7 @@ margin: 5px;
 <body>
 <header class="header">
 
-<a href="index.php">Home</a>
+<a href="../index.php">Home</a>
 <h2 class="logo">NextGadget</h2>
 <a href="login.php" style="visibility: hidden;">Login</a>
 
