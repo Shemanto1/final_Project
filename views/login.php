@@ -1,5 +1,6 @@
 <?php
     session_start();
+    require_once '../model/dbConnect.php';
 
     $email;
     $password;
@@ -35,12 +36,7 @@
                         $email = $_POST["email"];
                         $password = $_POST["password"];
 
-                   $server = "localhost";
-                   $username ="root";
-                   $pass ="";
-                   $database = "NextGadgets";
-   
-                    $con = mysqli_connect($server, $username, $pass, $database);
+                         $con=getConnection();
    
    
                        if (!$con) {
@@ -50,7 +46,7 @@
 
                         else {
                                                         
-                                // Check if email already exists
+                               
                                 $email_check_query = "SELECT * FROM `users` WHERE `email` = '$email'";
                                 $result = mysqli_query($con, $email_check_query);
 
@@ -61,7 +57,7 @@
                                     
                                     if($row['password']== $password)
                                     {
-                                      // echo "<script>alert('login successful');</script>";
+                                      
 
                                       if($row['role']=="customer")
                                       {
@@ -74,9 +70,9 @@
                                       }
                                       else
                                       {
-                                       // echo "admin login successfull";
+                                      
                                         $_SESSION["username"] = $row["email"];
-                                        //$_SESSION["password"] = $row["password"];
+                                       
                                         $_SESSION["role"] = $row["role"];
                                        
                                         $_SESSION["name"] = $row["name"];

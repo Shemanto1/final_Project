@@ -45,100 +45,59 @@ $has_Err = false;
     {
         $sql1 = "select * from categories";
         $result1 = mysqli_query($con1,$sql1);
+        if(isset($_GET["product_id"])){
+
+            $product_id = $_GET["product_id"];
+            $sql2="select * from products where id ='$product_id'";
+            $result2 = mysqli_query($con1,$sql2);
+            $row2=mysqli_fetch_assoc($result2);
+
+
+        }
+        
 
      }
 
 
+     if(isset($_POST["submit"])){
 
-if($_SERVER["REQUEST_METHOD"]=="POST")
-{
-    if(empty(trim($_POST['productName'])))
-    {
-        $productName_Err = "Please enter product name !!!!";
-        $has_Err = true;
-    }
-
-    if(empty(trim($_POST['price'])))
-    {
-        $price_Err = "Please enter product price !!!!";
-        $has_Err = true;
-    }
-
-    if(empty(trim($_POST['stock'])))
-    {
-        $stock_Err = "Please enter product stock !!!!";
-        $has_Err = true;
-    }
-
-    if(empty(trim($_POST['description'])))
-    {
-        $description_Err = "Please enter product description !!!!";
-        $has_Err = true;
-    }
-    
-
-    if(!isset($_FILES['image']) || $_FILES['image']['error'] != 0)
-    {
-        $image_Err = "Please upload product image !!!!";
-        $has_Err = true;
-    }
-   
-
-
-if(empty($_POST['category_name']))
-{
-    $category_name_Err = "Please select category name !!!!";
-    $has_Err = true;
-}
-
-
-    if(!$has_Err)
-    {
-        $productName = $_POST["productName"];
+        $product_id = $_GET["product_id"];
+        $name = $_POST["productName"];
         $price = $_POST["price"];
         $stock = $_POST["stock"];
-        $description = $_POST['description'];
-        $image = $_FILES["image"]["name"];
-        $temp_location = $_FILES["image"]["tmp_name"];
-        $upload_location= "../../image/";
-       // $category_id = $_POST["category_id"];
+        $description = $_POST["description"];
         $category_name = $_POST["category_name"];
-         
-                $con=getConnection();
-   
-   
-                       if (!$con) {
-                           
-                           die("Database connection failed: " . mysqli_connect_error());
-                       }
-
-                       else {
-                                              
-            $sql = "INSERT INTO `products`( `name`, `description`, `price`, `stock`, `image`, `category_name`) 
-                                           VALUES ('$productName','$description','$price','$stock','$image','$category_name')";
-
-                            $result = mysqli_query($con, $sql);
-
-                            if(!$result)
-                            {
-                                echo "<script>alert('Product add not Successfull. Try again!');</script>";
-                            }
-                            else
-                            { 
-                                echo "<script>alert('Product added successfully');</script>";
-                                move_uploaded_file($temp_location,$upload_location.$image);
-
-                            }
-                               
-                               
-
-                                    }
-                                        }
-
-
-
-           
+    
+        $image_sql = "";
+    
+        if(!empty($_FILES["image"]["name"])){
+            $image = $_FILES["image"]["name"];
+            $tmp = $_FILES["image"]["tmp_name"];
+            move_uploaded_file($tmp, "../../image/".$image);
+            $image_sql = ", image='$image'";
+        }
+    
+        $sql = "UPDATE products SET
+                    name='$name',
+                    description='$description',
+                    price='$price',
+                    stock='$stock',
+                    category_name='$category_name'
+                    $image_sql
+                WHERE id='$product_id'";
+    
+        $result = mysqli_query($con1, $sql);
+    
+        if($result){
+            header("Location: displayProduct.php");
+            exit;
+        }else{
+            echo mysqli_error($con1);
+        }
     }
+    
+       
+
 
 ?>
 
@@ -280,6 +239,17 @@ span{
     margin: 8px auto;   /* centers it horizontally */
 }
 
+/* Center preview image in form */
+.productForm img {
+    display: block;
+    margin: 10px auto;  /* horizontal center + some spacing */
+    max-width: 150px;   /* optional: limit size */
+    border-radius: 6px; /* optional: nice rounded corners */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+
+
 </style>
 </head>
 
@@ -294,25 +264,25 @@ span{
 </div>
 
 <div class="productForm">
-<form action="addProduct.php" method="post" enctype="multipart/form-data">
+<form action="updateProduct.php?product_id=<?php echo $product_id?>" method="post" enctype="multipart/form-data">
 
 <legend>Add Product Details</legend>
 
 <label>Product Name :</label>
-<input type="text" name="productName">
+<input type="text" name="productName" value="<?php echo $row2['name']?>">
 <span><?php echo $productName_Err; ?></span>
 
 <label>Product Price :</label>
-<input type="number" min="1" name="price">
+<input type="number" min="1" name="price" value="<?php echo $row2['price']?>">
 <span><?php echo $price_Err; ?></span>
 
 <label>Product Stock :</label>
-<input type="number" min="1" name="stock">
+<input type="number" min="1" name="stock" value="<?php echo $row2['stock']?>">
 <span><?php echo $stock_Err; ?></span>
 
-<textarea name="description" placeholder="Enter product Description"></textarea>
+<textarea name="description" ><?php echo $row2['description']?></textarea>
 <span><?php echo $description_Err; ?></span>
-
+ <img src="../../image/<?php echo $row2['image']?>" width="100px" >
 <input type="file" name="image">
 <span><?php echo $image_Err; ?></span>
 
@@ -339,7 +309,8 @@ span{
 
 
 
-<input type="submit" name="Submit">
+<input type="submit" name="submit" value="Update Product">
+
 
 </form>
 </div>

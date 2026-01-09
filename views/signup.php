@@ -125,14 +125,14 @@ else if(trim($_POST['password']) !== trim($_POST['confirm_password']))
 
                        else {
                                                         
-                                // Check if email already exists
+                                
                                 $email_check_query = "SELECT * FROM `users` WHERE `email` = '$email'";
                                 $email_check_result = mysqli_query($con, $email_check_query);
 
                                 if (mysqli_num_rows($email_check_result) > 0) {
                                     echo "<script>alert('This email has already been used. Try a new email or login.');</script>";
                                 } else {
-                                    // Insert new user
+                                  
                                     $sql = "INSERT INTO `users` ( `name`, `email`, `gender`, `password`, `phone`, `address`, `role`) 
                                             VALUES ('$name', '$email', '$gender', '$password', '$phone', '$address', '$role')";
 
