@@ -62,6 +62,7 @@
                                       if($row['role']=="customer")
                                       {
                                         $_SESSION["username"] = $row["email"];
+                                        $_SESSION["id"] = $row["id"];
                                         $_SESSION["role"] = $row["role"];
                                         $_SESSION["name"] = $row["name"];
                                         header("Location: customer/userDesh.php");  

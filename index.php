@@ -1,5 +1,15 @@
 <?php
-//echo "hello project";
+    session_start();
+    require_once"model/dbConnect.php";
+
+    $con=getConnection();
+    $sql="select * from products where stock>0";
+    $result=mysqli_query($con,$sql);
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -114,23 +124,24 @@ body{
 <header class="header">
 <a href="index.php">Home</a>
 <h2 class="logo">NextGadget</h2>
+
 <a href="views/login.php">Login</a>
+
 </header>
 
 <main class="main">
 <?php 
-for($i=0;$i<30; $i++){
-echo '
+ while($row=mysqli_fetch_assoc($result)){ ?>
 <div class="product">
-<img src="image/apple.jpeg" alt="image">
-<h2>Product Title</h2>
-<p>product Description</p>
-<p>Product Quantity</p>
-<p class="productPrice">product Price</p>
-<a href="#">Buy Now</a>
-</div>';
-}
-?>
+<img src="image/<?php echo $row['image']?>" alt="image">
+<h2><?php echo $row['name']?></h2>
+<p>Description: <?php echo $row['description']?></p> 
+<p>Stock: <?php echo $row['stock']?></p>
+<p class="productPrice">Price: <?php echo $row['price']?></p>
+<a href="#" onclick="alert('Please login first'); return false;">Buy Now</a>
+</div>
+<?php } ?>
+
 </main>
 
 <footer class="footer">
@@ -138,4 +149,4 @@ echo '
 </footer>
 
 </body>
-</html>
+</html>  
