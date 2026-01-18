@@ -101,7 +101,8 @@ body{
              <ul>
 
                      <li><a href="addProduct.php">Add Product</a></li>
-                     <li><a href="displayProduct.php">View Order</a></li>
+                     <li><a href="displayProduct.php">View Products</a></li>
+                     <li><a href="viewOrders.php">View Orders</a></li>
                      <li><a href="../logout.php">Logout</a></li>
 
              </ul>

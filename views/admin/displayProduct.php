@@ -145,7 +145,8 @@ a.delete:hover{
              <ul>
 
                      <li><a href="addProduct.php">Add Product</a></li>
-                     <li><a href="displayProduct.php">View Order</a></li>
+                     <li><a href="displayProduct.php">View Products</a></li>
+                        <li><a href="viewOrders.php">View Orders</a></li>
                      <li><a href="../logout.php">Logout</a></li>
 
              </ul>
@@ -185,7 +186,7 @@ a.delete:hover{
 
                         <td><?php echo $row['category_name']?></td>
                         <td> <a class="update" href="updateProduct.php?product_id=<?php echo $row['id'];?>">Update</a></td>
-                        <td> <a class="delete" href="deleteProduct.php?product_id=<?php echo $row['id'];?>">delete</a></td>
+                        <td> <a class="delete" href="../../Controller/deleteProduct.php?product_id=<?php echo $row['id'];?>">delete</a></td>
 
 
                         </tr>

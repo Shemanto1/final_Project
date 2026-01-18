@@ -3,7 +3,7 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require_once '../../model/dbConnect.php';
+require_once '../model/dbConnect.php';
 
 if (isset($_SESSION["role"]) && $_SESSION["role"] === "admin") {
 
@@ -20,7 +20,7 @@ if (isset($_SESSION["role"]) && $_SESSION["role"] === "admin") {
         } else {
             echo "<script>
                     
-                    window.location.href='displayProduct.php';
+                    window.location.href='../views/admin/displayProduct.php';
                     alert('Successfully deleted');
                   </script>";
         }

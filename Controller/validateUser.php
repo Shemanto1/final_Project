@@ -3,10 +3,15 @@
     require_once '../model/dbConnect.php';
 
     $email;
-    $password;
+    //$password;
+     $name="";
+    $phone="";
+
 
     $email_Err;
-    $password_Err;
+   // $password_Err;
+     $phone_Err="";
+     $name_Err="";
 
     $has_Err=false;
 
@@ -25,16 +30,41 @@
                   }
                 }
 
-                if(empty(trim($_POST['password'])))
-                {
-                  $password_Err = "Please Enter your password !!!!";
-                  $has_Err = true;
-                }
+                 if(empty(trim($_POST['name'])))
+      {
+        $name_Err = "Please Enter your name !!!!";
+        $has_Err = true;
+      }
+      else
+      {
+          if(!preg_match("/^[a-zA-Z-' ]*$/",$_POST['name']))
+          {
+              $name_Err="Only letters and white space allowed";
+              $has_Err = true;
+          }
+      }
+
+        if(empty(trim($_POST['phone'])))
+      {
+        $phone_Err = "Please Enter your Phone Number!!!!";
+        $has_Err = true;
+      }
+      else if(!preg_match("/^[0-9]+$/", trim($_POST['phone']))) {
+        $phone_Err = "Phone number must contain only digits";
+        $has_Err = true;
+      }
+
+               
 
                         if(!$has_Err)
                       {
                         $email = $_POST["email"];
-                        $password = $_POST["password"];
+                       // $password = $_POST["password"];
+
+                        $phone = $_POST["phone"];
+                        $name= $_POST["name"];
+
+
 
                          $con=getConnection();
    
@@ -44,74 +74,61 @@
                            die("Database connection failed: " . mysqli_connect_error());
                        }
 
-                        else {
-                                                        
-                               
-                                $email_check_query = "SELECT * FROM `users` WHERE `email` = '$email'";
-                                $result = mysqli_query($con, $email_check_query);
+                       else
+                       {
+                         
+                  $sql = "SELECT * 
+                                    FROM users 
+                                    WHERE email = '$email'
+                                    AND name = '$name'
+                                    AND phone = '$phone';";
 
-                                if (mysqli_num_rows($result) > 0) 
-                                {
+                       // $result =mysqli_query(con,sql);
+                       $result=mysqli_query($con,$sql);
+                       $row =mysqli_fetch_assoc($result);
+                      
+                       if (mysqli_num_rows($result) > 0) {
+                            
 
-                                    $row = mysqli_fetch_assoc($result);
-                                    
-                                    if($row['password']== $password)
-                                    {
-                                      
+                              
+                            $_SESSION["email"] = $row["email"];
+                                 header("Location: changePass.php");
+                                      exit;
+                                
 
-                                      if($row['role']=="customer")
-                                      {
-                                        $_SESSION["username"] = $row["email"];
-                                        $_SESSION["id"] = $row["id"];
-                                        $_SESSION["role"] = $row["role"];
-                                        $_SESSION["name"] = $row["name"];
-                                        header("Location: customer/userDesh.php");  
-                                      
-                                    
-                                      }
-                                      else
-                                      {
-                                      
-                                        $_SESSION["username"] = $row["email"];
-                                       
-                                        $_SESSION["role"] = $row["role"];
-                                       
-                                        $_SESSION["name"] = $row["name"];
-
-                                       header("Location: admin/adminDesh.php");
-                                 
-                                      }
-                                    }
-                                    else 
-                                    {
-                                         echo "<script>alert('Wrong password .. please try again');</script>";
-
-                                    }
 
                             
-                                } 
-                                
-                                else 
-                                {
+                      
 
-                                   echo "<script>alert('Invalid Email.. please try again');</script>";
-                                }
+                       }
+                    
 
+
+
+
+                    
+
+                          else{
+                          echo "<script>alert('Mismatch of information....try again');</script>";
 
                        }
 
+                      
 
 
 
                       }
 
 
-              }
+              
 
              
 
 
-  
+                    }
+                }
+
+                
 
 
 
@@ -264,7 +281,7 @@ margin: 5px;
 <main>
 
 <div class="login">
-<form action="login.php" method="post">
+<form action="validateUser.php" method="post">
 <legend>Sign In</legend>
 
 
@@ -276,27 +293,26 @@ margin: 5px;
 
 
 
-<label>Password :</label>
-<input type="password" name="password" placeholder="Enter a Password">
+<label>Name :</label>
+<input type="text" name="name" placeholder="Enter your name">
 <br>
-<span style="color:#dc2626;"><?php if(isset($password_Err)){echo $password_Err;}?></span>
+<span style="color:#dc2626;"><?php if(isset($name_Err)){echo $name_Err;}?></span>
 <br>
+
+<label>Phone number :</label>
+<input type="text" name="phone" placeholder="Enter your phone number">
+<br>
+<span style="color:#dc2626;"><?php if(isset($phone_Err)){echo $phone_Err;}?></span>
+<br>
+
 
 
 
 
 
 <label class="creating space" style="visibility: hidden;">Address :</label> <!-- creating space only -->
-<input type="submit" name="submit"  value="Login" >
+<input type="submit" name="submit"  value="Next" >
 
-<div class="form-footer">
-    <p>Don't have an account?</p>
-    <a href="signup.php">Sign Up</a>
-    <br>
-    <br>
-    <p>Forgot your password?</p>
-    <a href="../Controller/validateUser.php">Recover Password</a>
-</div>
 
 </form>
 </div>

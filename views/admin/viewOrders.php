@@ -7,10 +7,22 @@ require_once '../../model/dbConnect.php';
 
 if(isset($_SESSION["username"]))
 {
-    if($_SESSION["role"]=="customer")
+    if($_SESSION["role"]!="admin")
     {
-        $con=getConnection();
-        $user_id= $_SESSION["id"];
+        echo "go for userDesh board";
+        exit;
+    }
+}
+else
+{
+    header("Location: ../../index.php");
+    exit;
+}
+
+  $con=getConnection();
+
+  
+      
         $sql="SELECT 
                 
                 single_order.id,
@@ -22,35 +34,20 @@ if(isset($_SESSION["username"]))
         
          from single_order 
          join products
-         on single_order.product_id=products.id
-         where single_order.user_id='$user_id'";
+         on single_order.product_id=products.id";
 
 
         $result=mysqli_query($con,$sql);
-      
-        if(!$result)
-        {
-          echo "Error: {$con->error}";
-        }
-        else
-        {
-      
-      
-        }
-      
-    }
-    else{
-        echo "go for admin Desh board";
-        exit;
-    }
-}
-else
-{
-    header("Location: ../../index.php");
-    exit;
-}
 
- 
+  if(!$result)
+  {
+    echo "Error: {$con->error}";
+  }
+  else
+  {
+
+
+  }
 
 
 
@@ -166,9 +163,10 @@ a.delete:hover{
 <body>  
          <div class="desh_sidebar">
              <ul>
-             <li><a href="userDesh.php">shop</a></li>
-                     <li><a href="viewOrder.php">View Order</a></li>
 
+                     <li><a href="addProduct.php">Add Product</a></li>
+                     <li><a href="displayProduct.php">View Products</a></li>
+                      <li><a href="viewOrders.php">View Orders</a></li>
                      <li><a href="../logout.php">Logout</a></li>
 
              </ul>
@@ -178,7 +176,7 @@ a.delete:hover{
 
             </div>
 
-           <table>
+          <table>
              <thread>
                 <tr>
                     <th>Order Id</th>
@@ -212,7 +210,6 @@ a.delete:hover{
                         <?php }  ?>
                     </tbody>
             </table>
-
     
 </body>
 </html>
