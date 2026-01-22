@@ -56,7 +56,7 @@ else
     box-sizing: border-box;
 }
 
-/* Sidebar */
+
 .desh_sidebar{
     position: fixed;
     top: 0;

@@ -33,7 +33,7 @@ $category_name_Err = "";
 $has_Err = false;
 
 
-// categories table
+
    $con1=getConnection();
 
     if (!$con1) {
@@ -274,10 +274,10 @@ span{
     text-align: center;
     font-size: 14px;
 }
-/* Center description textarea */
+
 .productForm textarea{
     display: block;
-    margin: 8px auto;   /* centers it horizontally */
+    margin: 8px auto;   
 }
 
 </style>

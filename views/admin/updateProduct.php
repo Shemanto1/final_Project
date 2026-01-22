@@ -33,7 +33,7 @@ $category_name_Err = "";
 $has_Err = false;
 
 
-// categories table
+
    $con1=getConnection();
 
     if (!$con1) {
@@ -151,7 +151,7 @@ body{
     background-color: #475569;
 }
 
-/* Product form container */
+
 .productForm{
     display: flex;
     justify-content: center;
@@ -160,7 +160,7 @@ body{
     top: 40px;
 }
 
-/* Form box */
+
 .productForm form{
     background: linear-gradient(135deg, #6366f1, #22d3ee);
     width: 500px;
@@ -168,7 +168,7 @@ body{
     padding: 15px;
 }
 
-/* Legend */
+
 .productForm legend{
     font-size: 20px;
     color: #ffffff;
@@ -179,7 +179,7 @@ body{
     margin-bottom: 10px;
 }
 
-/* Labels */
+
 .productForm label{
     width: 140px;
     display: inline-block;
@@ -187,7 +187,7 @@ body{
     color: #ffffff;
 }
 
-/* Inputs */
+
 .productForm input:not([type="file"]),
 .productForm textarea,
 .productForm select{
@@ -233,18 +233,18 @@ span{
     text-align: center;
     font-size: 14px;
 }
-/* Center description textarea */
+
 .productForm textarea{
     display: block;
-    margin: 8px auto;   /* centers it horizontally */
+    margin: 8px auto;  
 }
 
-/* Center preview image in form */
+
 .productForm img {
     display: block;
-    margin: 10px auto;  /* horizontal center + some spacing */
-    max-width: 150px;   /* optional: limit size */
-    border-radius: 6px; /* optional: nice rounded corners */
+    margin: 10px auto;  
+    max-width: 150px;   
+    border-radius: 6px; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
